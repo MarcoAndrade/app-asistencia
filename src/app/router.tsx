@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/features/auth/components/ProtectedRoute';
 import { RoleRoute } from '@/features/auth/components/RoleRoute';

@@ -2,6 +2,7 @@ import {
   AccessTime as AccessTimeIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
+  CalendarMonth as CalendarMonthIcon
 } from '@mui/icons-material';
 import {
   Box,
@@ -33,6 +34,11 @@ const navigationItems = [
     label: 'Asistencias',
     path: '/attendance',
     icon: <AccessTimeIcon />,
+  },
+  {
+    label: 'Historial Asistencias',
+    path: '/attendance/history',
+    icon: <CalendarMonthIcon />,
   },
   {
     label: 'Usuarios',

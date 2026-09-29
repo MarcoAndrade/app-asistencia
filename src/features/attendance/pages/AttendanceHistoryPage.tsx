@@ -1,15 +1,46 @@
-import { Box, Typography } from '@mui/material';
+import {
+  CircularProgress,
+  Stack,
+  Typography,
+} from '@mui/material';
+
+import { useAuth } from '@/features/auth/hooks/useAuth';
+
+import { AttendanceHistoryTable } from '../components/AttendanceHistoryTable';
+import { useAttendance } from '../hooks/useAttendance';
 
 export function AttendanceHistoryPage() {
-  return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Mi historial
-      </Typography>
+  const { user } = useAuth();
 
-      <Typography color="text.secondary">
-        Historial de asistencia del usuario.
-      </Typography>
-    </Box>
+  const {
+    history,
+    isLoading,
+  } = useAttendance(user?.id ?? '');
+
+  if (!user) {
+    return null;
+  }
+
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+
+  return (
+    <Stack spacing={3}>
+      <div>
+        <Typography variant="h4">
+          Historial de asistencia
+        </Typography>
+
+        <Typography
+          variant="body1"
+          color="text.secondary"
+        >
+          Consulta tus registros de asistencia.
+        </Typography>
+      </div>
+
+      <AttendanceHistoryTable records={history} />
+    </Stack>
   );
 }
