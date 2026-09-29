@@ -1,15 +1,18 @@
-import { Box, Typography } from '@mui/material';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+
+import { AdminDashboard } from '../components/AdminDashboard';
+import { UserDashboard } from '../components/UserDashboard';
 
 export function DashboardPage() {
-  return (
-    <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Dashboard
-      </Typography>
+  const { user } = useAuth();
 
-      <Typography color="text.secondary">
-        Resumen general del sistema de asistencia.
-      </Typography>
-    </Box>
-  );
+  if (!user) {
+    return null;
+  }
+
+  if (user.role === 'ADMIN') {
+    return <AdminDashboard />;
+  }
+
+  return <UserDashboard />;
 }

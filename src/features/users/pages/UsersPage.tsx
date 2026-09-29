@@ -54,9 +54,8 @@ export function UsersPage() {
     <Stack spacing={3}>
       <Stack
         direction={{ xs: 'column', sm: 'row' }}
-        justifyContent="space-between"
-        alignItems={{ sm: 'center' }}
         spacing={2}
+        sx={{ justifyContent: 'space-between', alignItems: 'center' }}
       >
         <div>
           <Typography variant="h4">
