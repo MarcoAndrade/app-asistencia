@@ -3,7 +3,7 @@ import { Box, Toolbar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import { Header } from './Header';
-import { Sidebar } from './Sidebar';
+import { Sidebar, drawerWidth } from './Sidebar';
 
 export function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,6 +31,7 @@ export function AppLayout() {
           flexGrow: 1,
           minWidth: 0,
           minHeight: '100vh',
+          ml: { md: `${drawerWidth}px` }, 
           backgroundColor: 'background.default',
         }}
       >
