@@ -8,6 +8,7 @@ import { AttendancePage } from '@/features/attendance/pages/AttendancePage';
 import { DashboardPage } from '@/features/dashboard/pages/DashboardPage';
 import { UsersPage } from '@/features/users/pages/UsersPage';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { AdminAttendancePage } from '@/features/attendance/pages/AdminAttendancePage';
 
 const basename = import.meta.env.MODE === 'production' ? '/app-asistencia' : '/';
 
@@ -36,13 +37,16 @@ export const router = createBrowserRouter(
               element: <AttendanceHistoryPage />,
             },
             {
-              path: 'users',
-              element: <UsersPage />,
-            },
-            {
               element: <RoleRoute allowedRoles={['ADMIN']} />,
               children: [
-                // Rutas administrativas futuras
+                {
+                  path: 'users',
+                  element: <UsersPage />,
+                },
+                {
+                  path: 'attendance/admin',
+                  element: <AdminAttendancePage />,
+                },
               ],
             },
           ],

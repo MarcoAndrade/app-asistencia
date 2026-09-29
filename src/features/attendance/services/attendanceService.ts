@@ -118,3 +118,39 @@ export function checkOut(userId: string): Attendance {
 
   return updatedRecord;
 }
+
+export function getAllAttendance(): Attendance[] {
+  return getStoredAttendance().sort((a, b) =>
+    b.date.localeCompare(a.date),
+  );
+}
+
+export function updateAttendance(
+  attendanceId: string,
+  changes: Partial<Attendance>,
+): Attendance {
+  const records = getStoredAttendance();
+
+  const index = records.findIndex(
+    (record) => record.id === attendanceId,
+  );
+
+  if (index === -1) {
+    throw new Error(
+      'Registro de asistencia no encontrado.',
+    );
+  }
+
+  const updatedRecord: Attendance = {
+    ...records[index],
+    ...changes,
+    updatedAt: new Date().toISOString(),
+  };
+
+  const updatedRecords = [...records];
+  updatedRecords[index] = updatedRecord;
+
+  saveAttendance(updatedRecords);
+
+  return updatedRecord;
+}

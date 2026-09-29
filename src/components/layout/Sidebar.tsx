@@ -1,8 +1,10 @@
+import { useAuth } from '@/features/auth/hooks/useAuth';
 import {
   AccessTime as AccessTimeIcon,
   Dashboard as DashboardIcon,
   People as PeopleIcon,
-  CalendarMonth as CalendarMonthIcon
+  CalendarMonth as CalendarMonthIcon,
+  FactCheck as FactCheckIcon
 } from '@mui/icons-material';
 import {
   Box,
@@ -24,6 +26,8 @@ interface SidebarProps {
   onClose: () => void;
 }
 
+const { user } = useAuth();
+
 const navigationItems = [
   {
     label: 'Dashboard',
@@ -39,13 +43,22 @@ const navigationItems = [
     label: 'Historial Asistencias',
     path: '/attendance/history',
     icon: <CalendarMonthIcon />,
-  },
-  {
+  }
+];
+
+if (user?.role === 'ADMIN') {
+  navigationItems.push({
     label: 'Usuarios',
     path: '/users',
     icon: <PeopleIcon />,
-  },
-];
+  })
+
+  navigationItems.push({
+    label: 'Control de asistencia',
+    path: '/attendance/admin',
+    icon: <FactCheckIcon />,
+  })
+}
 
 export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
   const drawerContent = (
