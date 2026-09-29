@@ -26,8 +26,6 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-const { user } = useAuth();
-
 const navigationItems = [
   {
     label: 'Dashboard',
@@ -46,21 +44,9 @@ const navigationItems = [
   }
 ];
 
-if (user?.role === 'ADMIN') {
-  navigationItems.push({
-    label: 'Usuarios',
-    path: '/users',
-    icon: <PeopleIcon />,
-  })
-
-  navigationItems.push({
-    label: 'Control de asistencia',
-    path: '/attendance/admin',
-    icon: <FactCheckIcon />,
-  })
-}
-
 export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
+  const { user } = useAuth();
+  
   const drawerContent = (
     <Box>
       <Toolbar>
@@ -94,6 +80,34 @@ export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             <ListItemText primary={item.label} />
           </ListItemButton>
         ))}
+
+        {user?.role === 'ADMIN' && (
+          <>
+            <ListItemButton
+              component={NavLink}
+              to="/users"
+            >
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+
+              <ListItemText primary="Empleados" />
+            </ListItemButton>
+
+            <ListItemButton
+              component={NavLink}
+              to="/attendance/admin"
+            >
+              <ListItemIcon>
+                <FactCheckIcon />
+              </ListItemIcon>
+
+              <ListItemText
+                primary="Control de asistencia"
+              />
+            </ListItemButton>
+          </>
+        )}
       </List>
     </Box>
   );
