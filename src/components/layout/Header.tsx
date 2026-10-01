@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   AppBar,
+  Avatar,
   Box,
   Divider,
   IconButton,
@@ -11,135 +12,337 @@ import {
   Typography,
 } from '@mui/material';
 
-import { AccountCircle as AccountCircleIcon, Menu as MenuIcon } from '@mui/icons-material';
-import LogoutIcon from '@mui/icons-material/Logout';
-import PersonIcon from '@mui/icons-material/Person';
+import {
+  Logout as LogoutIcon,
+  Menu as MenuIcon,
+  Person as PersonIcon,
+} from '@mui/icons-material';
 
 import { useAuth } from '@/features/auth/hooks/useAuth';
 
-import { drawerWidth } from './Sidebar';
-
 interface HeaderProps {
   onMenuClick: () => void;
+  sidebarWidth: number;
 }
 
-export function Header({ onMenuClick }: HeaderProps) {
+export function Header({
+  onMenuClick,
+  sidebarWidth,
+}: HeaderProps) {
   const { user, logout } = useAuth();
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] =
+    useState<null | HTMLElement>(
+      null,
+    );
 
-  const isUserMenuOpen = Boolean(anchorEl);
+  const isUserMenuOpen =
+    Boolean(anchorEl);
 
-  const handleUserMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleUserMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+  ) => {
+    setAnchorEl(
+      event.currentTarget,
+    );
   };
 
-  const handleUserMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const handleUserMenuClose =
+    () => {
+      setAnchorEl(null);
+    };
 
   const handleLogout = () => {
     handleUserMenuClose();
     logout();
   };
 
+  const userInitial =
+    user?.name
+      ?.charAt(0)
+      .toUpperCase() ?? 'U';
+
   return (
     <AppBar
       position="fixed"
+      elevation={0}
       sx={{
         width: {
-          md: `calc(100% - ${drawerWidth}px)`,
+          xs: '100%',
+
+          md: `calc(100% - ${sidebarWidth}px)`,
         },
+
         ml: {
-          md: `${drawerWidth}px`,
+          xs: 0,
+
+          md: `${sidebarWidth}px`,
         },
+
+        backgroundColor:
+          '#fff',
+
+        color:
+          'text.primary',
+
+        borderBottom:
+          '1px solid',
+
+        borderColor:
+          'divider',
+
+        zIndex:
+          (theme) =>
+            theme.zIndex.drawer +
+            1,
+
+        transition:
+          (theme) =>
+            theme.transitions.create(
+              [
+                'width',
+                'margin-left',
+              ],
+              {
+                duration:
+                  theme.transitions
+                    .duration.standard,
+
+                easing:
+                  theme.transitions
+                    .easing.easeInOut,
+              },
+            ),
       }}
     >
-      <Toolbar>
+      <Toolbar
+        sx={{
+          minHeight: {
+            xs: 64,
+            md: 72,
+          },
+
+          px: {
+            xs: 2,
+            sm: 3,
+            md: 4,
+          },
+        }}
+      >
+        {/* MOBILE MENU */}
         <IconButton
-          color="inherit"
-          edge="start"
           onClick={onMenuClick}
+          aria-label="Abrir menú"
           sx={{
-            mr: 2,
             display: {
+              xs: 'flex',
               md: 'none',
             },
+
+            mr: 1,
+
+            color:
+              'text.primary',
           }}
-          aria-label="Abrir menú"
         >
           <MenuIcon />
         </IconButton>
 
-        <Typography
-          variant="h6"
-          component="div"
+        {/* TITLE */}
+        <Box
           sx={{
             flexGrow: 1,
+
+            minWidth: 0,
           }}
         >
-          Sistema de asistencia
-        </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: 700,
 
+              fontSize: {
+                xs: 18,
+                md: 20,
+              },
+
+              lineHeight: 1.2,
+            }}
+          >
+            Sistema de asistencia
+          </Typography>
+
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              display: {
+                xs: 'none',
+                sm: 'block',
+              },
+            }}
+          >
+            Gestión y control de
+            asistencia
+          </Typography>
+        </Box>
+
+        {/* USER AVATAR */}
         <IconButton
-          id="user-menu-button"
-          color="inherit"
-          aria-label="Usuario"
-          onClick={handleUserMenuOpen}
-          aria-controls={ isUserMenuOpen ? 'user-menu' : undefined }
+          onClick={
+            handleUserMenuOpen
+          }
+          aria-label="Abrir menú de usuario"
+          aria-controls={
+            isUserMenuOpen
+              ? 'user-menu'
+              : undefined
+          }
           aria-haspopup="true"
-          aria-expanded={ isUserMenuOpen ? 'true' : undefined }
+          aria-expanded={
+            isUserMenuOpen
+              ? 'true'
+              : undefined
+          }
+          sx={{
+            p: 0.5,
+          }}
         >
-          <AccountCircleIcon />
+          <Avatar
+            sx={{
+              width: 36,
+              height: 36,
+
+              fontSize: 14,
+
+              fontWeight: 600,
+
+              backgroundColor:
+                'rgba(21, 101, 192, 0.1)',
+
+              color:
+                'primary.main',
+            }}
+          >
+            {userInitial}
+          </Avatar>
         </IconButton>
 
+        {/* USER MENU */}
         <Menu
           id="user-menu"
           anchorEl={anchorEl}
           open={isUserMenuOpen}
-          onClose={handleUserMenuClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          onClose={
+            handleUserMenuClose
+          }
+          anchorOrigin={{
+            vertical:
+              'bottom',
+
+            horizontal:
+              'right',
+          }}
+          transformOrigin={{
+            vertical:
+              'top',
+
+            horizontal:
+              'right',
+          }}
           slotProps={{
-            list: { 'aria-labelledby': 'user-menu-button' },
+            paper: {
+              sx: {
+                mt: 1,
+
+                minWidth: 220,
+
+                borderRadius: 2,
+
+                border:
+                  '1px solid',
+
+                borderColor:
+                  'divider',
+
+                boxShadow:
+                  '0 8px 24px rgba(15, 23, 42, 0.08)',
+              },
+            },
           }}
         >
+          {/* USER INFO */}
           <Box
             sx={{
               px: 2,
               py: 1.5,
-              minWidth: 220,
             }}
           >
-            <Typography variant="subtitle2">
-              {user?.name}
+            <Typography
+              sx={{
+                fontSize: 14,
+
+                fontWeight: 600,
+              }}
+            >
+              {user?.name ??
+                'Usuario'}
             </Typography>
 
             <Typography
-              variant="body2"
+              variant="caption"
               color="text.secondary"
-              noWrap
+              sx={{
+                wordBreak:
+                  'break-word',
+              }}
             >
-              {user?.email}
+              {user?.email ?? ''}
             </Typography>
           </Box>
 
           <Divider />
 
-          <MenuItem onClick={handleUserMenuClose}>
+          {/* PROFILE */}
+          <MenuItem
+            onClick={
+              handleUserMenuClose
+            }
+            sx={{
+              py: 1.25,
+
+              gap: 1.5,
+            }}
+          >
             <PersonIcon
               fontSize="small"
-              sx={{ mr: 1.5 }}
             />
-            Mi perfil
+
+            <Typography
+              fontSize={14}
+            >
+              Mi perfil
+            </Typography>
           </MenuItem>
 
-          <MenuItem onClick={handleLogout}>
+          {/* LOGOUT */}
+          <MenuItem
+            onClick={handleLogout}
+            sx={{
+              py: 1.25,
+
+              gap: 1.5,
+            }}
+          >
             <LogoutIcon
               fontSize="small"
-              sx={{ mr: 1.5 }}
             />
-            Cerrar sesión
+
+            <Typography
+              fontSize={14}
+            >
+              Cerrar sesión
+            </Typography>
           </MenuItem>
         </Menu>
       </Toolbar>
