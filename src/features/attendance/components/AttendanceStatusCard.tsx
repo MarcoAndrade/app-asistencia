@@ -14,7 +14,6 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import ScheduleRoundedIcon from '@mui/icons-material/ScheduleRounded';
-import EventAvailableRoundedIcon from '@mui/icons-material/EventAvailableRounded';
 
 import type { Attendance } from '../types';
 
@@ -80,13 +79,13 @@ function AttendancePoint({
 
   return (
     <Stack
-      alignItems={{
-        xs: 'flex-start',
-        md: 'center',
-      }}
       spacing={1.25}
       sx={{
         width: '100%',
+        alignItems: {
+          xs: 'flex-start',
+          md: 'center'
+        }
       }}
     >
       <Box
@@ -315,8 +314,6 @@ export function AttendanceStatusCard({
 
               {/* Center */}
               <Stack
-                alignItems="center"
-                justifyContent="center"
                 spacing={1}
                 sx={{
                   height: '100%',
@@ -324,6 +321,8 @@ export function AttendanceStatusCard({
                   borderRight: '1px solid',
                   borderColor: 'divider',
                   px: 3,
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
                 <Box
@@ -473,8 +472,7 @@ export function AttendanceStatusCard({
                 >
                   <Stack
                     direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
+                    sx= {{ alignItems: 'center', justifyContent: 'space-between' }}
                   >
                     <Box
                       sx={{

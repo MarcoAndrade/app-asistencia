@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   checkIn as checkInService,
@@ -10,12 +10,11 @@ import {
 import type { Attendance } from '../types';
 
 export function useAttendance(userId: string) {
-  const [todayAttendance, setTodayAttendance] =
-    useState<Attendance | null>(null);
+  const [todayAttendance, setTodayAttendance] = useState<Attendance | null>(() => getTodayAttendance(userId));
 
-  const [history, setHistory] = useState<Attendance[]>([]);
+  const [history, setHistory] = useState<Attendance[]>(() => getAttendanceByUser(userId));
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadAttendance = useCallback(() => {
     setIsLoading(true);
@@ -25,10 +24,6 @@ export function useAttendance(userId: string) {
 
     setIsLoading(false);
   }, [userId]);
-
-  useEffect(() => {
-    loadAttendance();
-  }, [loadAttendance]);
 
   const checkIn = useCallback(() => {
     checkInService(userId);

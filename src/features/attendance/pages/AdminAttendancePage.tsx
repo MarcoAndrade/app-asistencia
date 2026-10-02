@@ -79,6 +79,7 @@ export function AdminAttendancePage() {
       />
 
       <AttendanceJustificationDialog
+        key={selectedAttendance?.id}
         open={Boolean(selectedAttendance)}
         attendance={selectedAttendance}
         onClose={() =>

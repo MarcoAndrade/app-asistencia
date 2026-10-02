@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
   Button,
@@ -29,22 +29,9 @@ export function AttendanceJustificationDialog({
   onClose,
   onSave,
 }: AttendanceJustificationDialogProps) {
-  const [status, setStatus] =
-    useState<Attendance['status']>('JUSTIFIED');
+  const [status, setStatus] = useState<Attendance['status']>(attendance?.status ?? 'JUSTIFIED');
 
-  const [justification, setJustification] =
-    useState('');
-
-  useEffect(() => {
-    if (!attendance) {
-      return;
-    }
-
-    setStatus(attendance.status);
-    setJustification(
-      attendance.justification ?? '',
-    );
-  }, [attendance]);
+  const [justification, setJustification] = useState(attendance?.justification ?? '');
 
   const handleSave = () => {
     onSave(status, justification);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   getAllAttendance,
@@ -8,8 +8,8 @@ import {
 import type { Attendance } from '../types';
 
 export function useAdminAttendance() {
-  const [records, setRecords] = useState<Attendance[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [records, setRecords] = useState<Attendance[]>(() => getAllAttendance());
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadRecords = useCallback(() => {
     setIsLoading(true);
@@ -18,10 +18,6 @@ export function useAdminAttendance() {
 
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    loadRecords();
-  }, [loadRecords]);
 
   const updateAttendance = useCallback(
     (

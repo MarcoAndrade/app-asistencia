@@ -319,7 +319,7 @@ export function Header({
             />
 
             <Typography
-              fontSize={14}
+              sx={{ fontSize: 14 }}
             >
               Mi perfil
             </Typography>
@@ -339,7 +339,7 @@ export function Header({
             />
 
             <Typography
-              fontSize={14}
+              sx={{ fontSize: 14 }}
             >
               Cerrar sesión
             </Typography>

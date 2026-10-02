@@ -1,6 +1,5 @@
 import {
   AccessTime as AccessTimeIcon,
-  CalendarMonth as CalendarMonthIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
   Dashboard as DashboardIcon,
@@ -178,10 +177,11 @@ export function Sidebar({
         {!collapsedMode && (
           <ListItemText
             primary={item.label}
-            primaryTypographyProps={{
-              fontSize: 14,
-              fontWeight: 'inherit',
-              noWrap: true,
+            slotProps={{
+              primary: {
+                noWrap: true,
+                sx: { fontSize: 14, fontWeight: 'inherit' },
+              }
             }}
           />
         )}
@@ -434,8 +434,10 @@ export function Sidebar({
 
               <ListItemText
                 primary="Configuración"
-                primaryTypographyProps={{
-                  fontSize: 14,
+                slotProps={{
+                  primary: {
+                    sx: { fontSize: 14 }
+                  }
                 }}
               />
             </ListItemButton>

@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -27,18 +26,11 @@ interface AuthProviderProps {
 export function AuthProvider({
   children,
 }: AuthProviderProps) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
+  const [user, setUser] = useState<AuthUser | null>(() => {
     const session = getSession();
-
-    if (session) {
-      setUser(session.user);
-    }
-
-    setIsLoading(false);
-  }, []);
+    return session ? session.user : null;
+  });
+  const [isLoading] = useState(false);
 
   const login = useCallback(
     async (credentials: LoginCredentials) => {

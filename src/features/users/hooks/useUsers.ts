@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   createUser as createUserService,
@@ -9,8 +9,8 @@ import {
 import type { User } from '../types';
 
 export function useUsers() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState<User[]>(() => getUsers());
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadUsers = useCallback(() => {
     setIsLoading(true);
@@ -19,10 +19,6 @@ export function useUsers() {
 
     setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    loadUsers();
-  }, [loadUsers]);
 
   const createUser = useCallback(
     (data: Omit<User, 'id' | 'createdAt'>) => {

@@ -91,9 +91,13 @@ function getStatusLabel(
   }
 }
 
-function getStatusPalette(
-  status: Attendance['status'],
-) {
+type AllowedPaletteColor = 'success' | 'error' | 'info' | 'warning';
+
+interface StatusPalette {
+  color: AllowedPaletteColor | 'default';
+}
+
+function getStatusPalette(status: Attendance['status']) : StatusPalette {
   switch (status) {
     case 'PRESENT':
       return {
@@ -942,12 +946,8 @@ function AttendanceStatusChip({
 
   const color =
     palette.color === 'default'
-      ? theme.palette
-        .text
-        .secondary
-      : theme.palette[
-        palette.color
-      ].main;
+      ? theme.palette.text.secondary
+      : theme.palette[palette.color].main;
 
   return (
     <Chip

@@ -1,6 +1,8 @@
 import type { User, UserRole } from '@/features/users/types';
 
-export interface AuthUser extends User {}
+export interface AuthUser extends User {
+  token: string;
+}
 
 export interface LoginCredentials {
   email: string;

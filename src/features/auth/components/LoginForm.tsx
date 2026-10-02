@@ -163,41 +163,28 @@ export function LoginForm() {
         autoComplete="current-password"
         placeholder="••••••••"
         variant="outlined"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton
-                type="button"
-                edge="end"
-                onClick={() =>
-                  setShowPassword(
-                    (current) => !current,
-                  )
-                }
-                aria-label={
-                  showPassword
-                    ? 'Ocultar contraseña'
-                    : 'Mostrar contraseña'
-                }
-                sx={{
-                  color: '#90a4ae',
-
-                  '&:hover': {
-                    color: 'primary.main',
-
-                    backgroundColor:
-                      'transparent',
-                  },
-                }}
-              >
-                {showPassword ? (
-                  <VisibilityOff />
-                ) : (
-                  <Visibility />
-                )}
-              </IconButton>
-            </InputAdornment>
-          ),
+        slotProps={{
+          input: {
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  type="button"
+                  edge="end"
+                  onClick={() => setShowPassword((current) => !current)}
+                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  sx={{
+                    color: '#90a4ae',
+                    '&:hover': {
+                      color: 'primary.main',
+                      backgroundColor: 'transparent',
+                    },
+                  }}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          },
         }}
         sx={{
           mb: 3.5,
